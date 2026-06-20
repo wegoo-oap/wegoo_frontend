@@ -94,9 +94,9 @@ class _OtpScreenState extends ConsumerState<OtpScreen>
 
     setState(() => _isLoading = true);
 
-    final verificationId = ref.read(verificationIdProvider);
+    final phoneNumber = ref.read(phoneNumberProvider);
 
-    if (verificationId == null) {
+    if (phoneNumber == null) {
       setState(() => _isLoading = false);
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -111,12 +111,12 @@ class _OtpScreenState extends ConsumerState<OtpScreen>
     try {
       final code = _controllers.map((c) => c.text).join();
 
-      // Mock API call
-      await Future.delayed(const Duration(seconds: 2));
+      // Real API call
+      final success = await ref.read(authServiceProvider).verifyOtp(phoneNumber, code);
 
-      // Mock setting the token
-      const storage = FlutterSecureStorage();
-      await storage.write(key: 'jwt_token', value: 'mock_jwt_token_123');
+      if (!success) {
+        throw Exception('Invalid OTP or Verification Failed');
+      }
 
       if (!mounted) return;
 
@@ -134,10 +134,11 @@ class _OtpScreenState extends ConsumerState<OtpScreen>
       // Navigate to profile setup (mocking a new user)
       context.go('/auth/profile/1');
     } catch (e) {
+      if (!mounted) return;
       setState(() => _isLoading = false);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Verification failed: $e'),
+          content: Text(e.toString().replaceAll('Exception: ', '')),
           backgroundColor: const Color(0xFFBA1A1A),
         ),
       );

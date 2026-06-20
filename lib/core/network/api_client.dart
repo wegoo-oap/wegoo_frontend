@@ -1,9 +1,18 @@
-﻿import 'dart:convert';
+import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'dart:io' show Platform;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ApiClient {
-  final String baseUrl = 'http://localhost:3000'; // Replace with actual backend URL
+  late final String baseUrl;
+
+  ApiClient() {
+    try {
+      baseUrl = Platform.isAndroid ? 'http://10.0.2.2:3000' : 'http://localhost:3000';
+    } catch (e) {
+      baseUrl = 'http://localhost:3000'; // Fallback for web
+    }
+  }
   final http.Client _client = http.Client();
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
 

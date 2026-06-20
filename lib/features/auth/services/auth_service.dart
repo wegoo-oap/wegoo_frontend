@@ -1,6 +1,6 @@
-﻿import 'dart:convert';
+import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'api_client.dart';
+import 'package:wegoo/core/network/api_client.dart';
 
 class AuthService {
   final ApiClient _apiClient;
@@ -9,18 +9,19 @@ class AuthService {
   AuthService(this._apiClient);
 
   Future<void> sendOtp(String phoneNumber) async {
-    // Stub: POST /auth/send-otp
-    final response = await _apiClient.post('/auth/send-otp', body: {'phone': phoneNumber});
+    // Appel réel au backend Node.js
+    final response = await _apiClient.post('/api/auth/phone', body: {'phone': phoneNumber});
     if (response.statusCode != 200) {
-      throw Exception('Failed to send OTP');
+      final message = jsonDecode(response.body)['message'] ?? 'Failed to send OTP';
+      throw Exception(message);
     }
   }
 
   Future<bool> verifyOtp(String phoneNumber, String otpCode) async {
-    // Stub: POST /auth/verify-otp
-    final response = await _apiClient.post('/auth/verify-otp', body: {
+    // Appel réel au backend Node.js
+    final response = await _apiClient.post('/api/auth/verify', body: {
       'phone': phoneNumber,
-      'code': otpCode,
+      'otp': otpCode,
     });
 
     if (response.statusCode == 200) {

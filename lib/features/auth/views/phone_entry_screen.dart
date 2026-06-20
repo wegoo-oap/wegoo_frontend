@@ -58,20 +58,28 @@ class _PhoneEntryScreenState extends ConsumerState<PhoneEntryScreen>
 
     setState(() => _isLoading = true);
 
-    // Mock API call
-    await Future.delayed(const Duration(seconds: 2));
+    try {
+      // Real API call
+      await ref.read(authServiceProvider).sendOtp(phoneNumber);
 
-    if (!mounted) return;
-    setState(() => _isLoading = false);
+      if (!mounted) return;
+      setState(() => _isLoading = false);
 
-    // SAVE mock verificationId for OTP screen
-    ref.read(verificationIdProvider.notifier).state = 'mock_vid_123';
+      // SAVE mock verificationId for OTP screen (since we don't use it yet)
+      ref.read(verificationIdProvider.notifier).state = 'mock_vid_123';
 
-    // optional: save phone number
-    ref.read(phoneNumberProvider.notifier).state = phoneNumber;
+      // save phone number
+      ref.read(phoneNumberProvider.notifier).state = phoneNumber;
 
-    // go to OTP screen
-    context.go('/auth/otp');
+      // go to OTP screen
+      context.go('/auth/otp');
+    } catch (e) {
+      if (!mounted) return;
+      setState(() => _isLoading = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString())),
+      );
+    }
   }
 
   void _showCountryPicker() {
