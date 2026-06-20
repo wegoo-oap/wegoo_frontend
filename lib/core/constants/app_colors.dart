@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class AppColors {
-  // — fill these in once you share your design —
+  // â€” fill these in once you share your design â€”
   static const Color primary = Color(0xFF000000); // replace
   static const Color secondary = Color(0xFF000000); // replace
   static const Color accent = Color(0xFF000000); // replace

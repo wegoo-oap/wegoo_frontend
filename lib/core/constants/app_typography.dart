@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class AppTypography {
-  // — update font family once you share your design —
+  // â€” update font family once you share your design â€”
   static const String fontFamily = 'Inter';
 
   static TextTheme get textTheme => const TextTheme(
