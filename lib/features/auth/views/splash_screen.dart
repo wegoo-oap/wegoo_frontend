@@ -88,7 +88,7 @@ class _SplashScreenState extends State<SplashScreen>
       const storage = FlutterSecureStorage();
       final token = await storage.read(key: 'jwt_token');
       if (token != null) {
-        context.go('/home');
+        context.go('/profile');
       }
       // If user is null â€” do nothing, let them tap the button
     });

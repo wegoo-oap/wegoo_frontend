@@ -224,7 +224,7 @@ class _ProfileSetupStep2ScreenState extends State<ProfileSetupStep2Screen>
       });
 
       await Future.delayed(const Duration(seconds: 2));
-      if (mounted) context.go('/home');
+      if (mounted) context.go('/profile');
     } catch (e) {
       if (!mounted) return;
       setState(() => _isLoading = false);
@@ -923,7 +923,7 @@ class _SuccessOverlayState extends State<_SuccessOverlay>
                         height: 48,
                         child: ElevatedButton(
                           // â”€â”€ FIX 6: real navigation â”€â”€â”€â”€â”€â”€
-                          onPressed: () => context.go('/home'),
+                          onPressed: () => context.go('/profile'),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: WegooColors.primary,
                             foregroundColor: Colors.white,

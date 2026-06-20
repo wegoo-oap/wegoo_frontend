@@ -157,7 +157,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                           padding: const EdgeInsets.only(bottom: 12),
                           child: _EarlierNotifCard(
                             notif: n,
-                            onLinkTap: () => context.go('/home'),
+                            onLinkTap: () => context.go('/profile'),
                           ),
                         )),
                   ],
