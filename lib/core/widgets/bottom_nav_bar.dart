@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class MainShell extends StatelessWidget {
@@ -19,7 +19,7 @@ class MainShell extends StatelessWidget {
       bottomNavigationBar: _WegooBottomNav(
         currentIndex: currentIndex,
         onTap: (i) {
-          if (i == 0) context.go('/profile');
+          if (i == 0) context.go('/home');
           if (i == 1) context.go('/trips');
           if (i == 2) context.go('/messages');
           if (i == 3) context.go('/profile');

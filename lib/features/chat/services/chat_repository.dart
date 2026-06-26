@@ -1,7 +1,7 @@
-﻿import 'dart:convert';
+import 'dart:convert';
 import '../models/chat_model.dart';
 import '../models/message_model.dart';
-import 'api_client.dart';
+import '../../../core/network/api_client.dart';
 
 class ChatRepository {
   final ApiClient _apiClient;

@@ -1,6 +1,6 @@
-﻿import 'dart:convert';
+import 'dart:convert';
 import '../models/user_model.dart';
-import 'api_client.dart';
+import '../../../core/network/api_client.dart';
 
 class UserRepository {
   final ApiClient _apiClient;

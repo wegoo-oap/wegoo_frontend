@@ -426,7 +426,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen>
             fit: StackFit.expand,
             children: [
               Image.asset(
-                'assets/images/onboarding.png',
+                'assets/images/image.png',
                 fit: BoxFit.cover,
                 errorBuilder: (c, e, s) => Container(
                   color: const Color(0xFFF0EDEC),

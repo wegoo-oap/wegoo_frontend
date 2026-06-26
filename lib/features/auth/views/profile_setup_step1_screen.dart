@@ -1,4 +1,4 @@
-﻿import 'package:go_router/go_router.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -260,12 +260,11 @@ class _ProfileSetupStep1ScreenState extends State<ProfileSetupStep1Screen>
 
                           const SizedBox(height: 40),
 
-                          // â”€â”€ Safety Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-                          _SafetyCard(),
+                          // --- Safety Card removed ---
 
                           const SizedBox(height: 32),
 
-                          // â”€â”€ Next Button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+                          // ——— Next Button ———————————————————————————
                           _NextButton(
                             isLoading: _isLoading,
                             onTap: _isLoading ? () {} : _onNext,
@@ -273,7 +272,7 @@ class _ProfileSetupStep1ScreenState extends State<ProfileSetupStep1Screen>
 
                           const SizedBox(height: 48),
 
-                          // â”€â”€ Footer decoration â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+                          // ——— Footer decoration ———————————————————————————
                           _FooterDecoration(),
 
                           const SizedBox(height: 48),
@@ -291,9 +290,9 @@ class _ProfileSetupStep1ScreenState extends State<ProfileSetupStep1Screen>
   }
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// —————————————————————————————————————————————————————————————
 //  Sticky Header with animated progress bar
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// —————————————————————————————————————————————————————————————
 class _StickyHeader extends StatelessWidget {
   const _StickyHeader({required this.progressAnim});
   final Animation<double> progressAnim;
@@ -302,22 +301,47 @@ class _StickyHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final top = MediaQuery.of(context).padding.top;
     return Container(
-      color: WegooColors.surface.withOpacity(0.85),
-      padding: EdgeInsets.fromLTRB(20, top + 12, 20, 16),
+      decoration: BoxDecoration(
+        color: WegooColors.surface,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      padding: EdgeInsets.fromLTRB(16, top + 8, 20, 16),
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 480),
           child: Column(
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  GestureDetector(
+                    onTap: () => context.go('/auth/otp'),
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: WegooColors.surfaceContainerLow,
+                      ),
+                      child: const Icon(
+                        Icons.arrow_back_rounded,
+                        color: WegooColors.primary,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
                   Text(
                     'Step 1 of 2',
                     style: WegooTextStyles.labelCaps.copyWith(
                       color: WegooColors.primary,
                     ),
                   ),
+                  const Spacer(),
                   Text(
                     '50% Complete',
                     style: WegooTextStyles.labelCaps.copyWith(
@@ -330,7 +354,7 @@ class _StickyHeader extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(99),
                 child: SizedBox(
-                  height: 8,
+                  height: 6,
                   child: AnimatedBuilder(
                     animation: progressAnim,
                     builder: (_, __) => LinearProgressIndicator(
@@ -338,7 +362,7 @@ class _StickyHeader extends StatelessWidget {
                       backgroundColor: WegooColors.surfaceContainerHighest,
                       valueColor:
                           const AlwaysStoppedAnimation(WegooColors.primary),
-                      minHeight: 8,
+                      minHeight: 6,
                     ),
                   ),
                 ),
@@ -351,9 +375,9 @@ class _StickyHeader extends StatelessWidget {
   }
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// —————————————————————————————————————————————————————————————
 //  Title Section
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// —————————————————————————————————————————————————————————————
 class _TitleSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -378,9 +402,9 @@ class _TitleSection extends StatelessWidget {
   }
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// —————————————————————————————————————————————————————————————
 //  Photo Picker
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// —————————————————————————————————————————————————————————————
 class _PhotoPicker extends StatelessWidget {
   const _PhotoPicker({required this.photoFile, required this.onTap});
   final File? photoFile;
@@ -396,57 +420,80 @@ class _PhotoPicker extends StatelessWidget {
             child: Stack(
               clipBehavior: Clip.none,
               children: [
-                // Avatar circle
+                // Glowing outer border
                 Container(
-                  width: 144,
-                  height: 144,
+                  padding: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: WegooColors.surfaceContainerHigh,
-                    border: Border.all(color: Colors.white, width: 4),
+                    gradient: const LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        WegooColors.primaryContainer,
+                        WegooColors.secondaryContainer,
+                      ],
+                    ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.10),
-                        blurRadius: 12,
-                        offset: const Offset(0, 4),
+                        color: WegooColors.primary.withOpacity(0.15),
+                        blurRadius: 20,
+                        offset: const Offset(0, 8),
                       ),
                     ],
-                    image: photoFile != null
-                        ? DecorationImage(
-                            image: FileImage(photoFile!),
-                            fit: BoxFit.cover,
+                  ),
+                  child: Container(
+                    width: 140,
+                    height: 140,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: WegooColors.surfaceContainerLowest,
+                      border: Border.all(color: Colors.white, width: 4),
+                      image: photoFile != null
+                          ? DecorationImage(
+                              image: FileImage(photoFile!),
+                              fit: BoxFit.cover,
+                            )
+                          : null,
+                    ),
+                    child: photoFile == null
+                        ? Center(
+                            child: Icon(
+                              Icons.person_rounded,
+                              size: 72,
+                              color: WegooColors.outline.withOpacity(0.6),
+                            ),
                           )
                         : null,
                   ),
-                  child: photoFile == null
-                      ? const Icon(
-                          Icons.person,
-                          size: 64,
-                          color: WegooColors.outline,
-                        )
-                      : null,
                 ),
 
-                // Camera FAB
+                // Camera FAB Badge
                 Positioned(
-                  bottom: 4,
-                  right: 4,
+                  bottom: 2,
+                  right: 2,
                   child: Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: WegooColors.primary,
+                      gradient: const LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          WegooColors.primaryContainer,
+                          WegooColors.primary,
+                        ],
+                      ),
                       shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white, width: 2),
+                      border: Border.all(color: Colors.white, width: 3),
                       boxShadow: [
                         BoxShadow(
-                          color: WegooColors.primary.withOpacity(0.35),
-                          blurRadius: 8,
-                          offset: const Offset(0, 3),
+                          color: WegooColors.primary.withOpacity(0.3),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
                         ),
                       ],
                     ),
                     child: const Icon(
-                      Icons.add_a_photo,
+                      Icons.camera_alt_rounded,
                       color: Colors.white,
                       size: 18,
                     ),
@@ -457,10 +504,11 @@ class _PhotoPicker extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            'UPLOAD PHOTO',
+            'UPLOAD PROFILE PHOTO',
             style: WegooTextStyles.labelCaps.copyWith(
-              color: WegooColors.tertiary,
-              letterSpacing: 0.05 * 12 * 1.5,
+              color: WegooColors.primary,
+              letterSpacing: 1.5,
+              fontSize: 11,
             ),
           ),
         ],
@@ -469,9 +517,9 @@ class _PhotoPicker extends StatelessWidget {
   }
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// —————————————————————————————————————————————————————————————
 //  Field Label
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// —————————————————————————————————————————————————————————————
 class _FieldLabel extends StatelessWidget {
   const _FieldLabel(this.text);
   final String text;
@@ -487,9 +535,9 @@ class _FieldLabel extends StatelessWidget {
   }
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// —————————————————————————————————————————————————————————————
 //  Wegoo Text Field
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// —————————————————————————————————————————————————————————————
 class _WegooTextField extends StatefulWidget {
   const _WegooTextField({
     required this.controller,
@@ -514,43 +562,72 @@ class _WegooTextFieldState extends State<_WegooTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedScale(
-      scale: _focused ? 1.01 : 1.0,
-      duration: const Duration(milliseconds: 150),
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: _focused
+            ? [
+                BoxShadow(
+                  color: WegooColors.primary.withOpacity(0.06),
+                  blurRadius: 12,
+                  offset: const Offset(0, 4),
+                ),
+              ]
+            : [],
+      ),
       child: Focus(
         onFocusChange: (f) => setState(() => _focused = f),
         child: TextField(
           controller: widget.controller,
           keyboardType: widget.keyboardType,
           inputFormatters: widget.inputFormatters,
-          style:
-              WegooTextStyles.bodyMedium.copyWith(color: WegooColors.onSurface),
+          style: WegooTextStyles.bodyMedium.copyWith(
+            color: WegooColors.onSurface,
+            fontWeight: FontWeight.w500,
+          ),
           decoration: InputDecoration(
             hintText: widget.hint,
-            hintStyle:
-                WegooTextStyles.bodyMedium.copyWith(color: WegooColors.outline),
+            hintStyle: WegooTextStyles.bodyMedium.copyWith(
+              color: WegooColors.outline.withOpacity(0.7),
+            ),
             filled: true,
-            fillColor: WegooColors.surfaceContainerLowest,
+            fillColor: _focused
+                ? WegooColors.surfaceContainerLowest
+                : WegooColors.surfaceContainerLow,
             contentPadding:
-                const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
             suffixIcon: widget.suffixIcon != null
-                ? Icon(widget.suffixIcon,
-                    color: WegooColors.outlineVariant, size: 22)
+                ? Padding(
+                    padding: const EdgeInsets.only(right: 16),
+                    child: Icon(
+                      widget.suffixIcon,
+                      color: _focused ? WegooColors.primary : WegooColors.outline,
+                      size: 22,
+                    ),
+                  )
                 : null,
+            suffixIconConstraints: const BoxConstraints(
+              minWidth: 24,
+              minHeight: 24,
+            ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
-              borderSide:
-                  const BorderSide(color: WegooColors.outlineVariant, width: 1),
+              borderSide: BorderSide.none,
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
-              borderSide:
-                  const BorderSide(color: WegooColors.outlineVariant, width: 1),
+              borderSide: BorderSide(
+                color: WegooColors.outlineVariant.withOpacity(0.5),
+                width: 1,
+              ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
-              borderSide:
-                  const BorderSide(color: WegooColors.primary, width: 2),
+              borderSide: const BorderSide(
+                color: WegooColors.primary,
+                width: 2,
+              ),
             ),
           ),
         ),
@@ -559,9 +636,9 @@ class _WegooTextFieldState extends State<_WegooTextField> {
   }
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// —————————————————————————————————————————————————————————————
 //  Nationality Dropdown
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// —————————————————————————————————————————————————————————————
 class _NationalityDropdown extends StatelessWidget {
   const _NationalityDropdown({
     required this.value,
@@ -575,32 +652,50 @@ class _NationalityDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final hasValue = value != null;
     return Container(
-      height: 56,
+      height: 58,
       decoration: BoxDecoration(
-        color: WegooColors.surfaceContainerLowest,
+        color: hasValue
+            ? WegooColors.surfaceContainerLowest
+            : WegooColors.surfaceContainerLow,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color:
-              value != null ? WegooColors.primary : WegooColors.outlineVariant,
-          width: value != null ? 2 : 1,
+          color: hasValue
+              ? WegooColors.primary
+              : WegooColors.outlineVariant.withOpacity(0.5),
+          width: hasValue ? 2 : 1,
         ),
+        boxShadow: hasValue
+            ? [
+                BoxShadow(
+                  color: WegooColors.primary.withOpacity(0.04),
+                  blurRadius: 8,
+                  offset: const Offset(0, 2),
+                ),
+              ]
+            : [],
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      alignment: Alignment.center,
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
           value: value,
           isExpanded: true,
-          icon:
-              const Icon(Icons.keyboard_arrow_down, color: WegooColors.outline),
+          icon: Icon(
+            Icons.keyboard_arrow_down_rounded,
+            color: hasValue ? WegooColors.primary : WegooColors.outline,
+            size: 24,
+          ),
           style: WegooTextStyles.bodyMedium.copyWith(
-            color: value != null ? WegooColors.primary : WegooColors.outline,
-            fontWeight: value != null ? FontWeight.w600 : FontWeight.w400,
+            color: WegooColors.onSurface,
+            fontWeight: hasValue ? FontWeight.w500 : FontWeight.w400,
           ),
           hint: Text(
             'Select',
-            style:
-                WegooTextStyles.bodyMedium.copyWith(color: WegooColors.outline),
+            style: WegooTextStyles.bodyMedium.copyWith(
+              color: WegooColors.outline.withOpacity(0.7),
+            ),
           ),
           dropdownColor: WegooColors.surfaceContainerLowest,
           borderRadius: BorderRadius.circular(16),
@@ -617,87 +712,10 @@ class _NationalityDropdown extends StatelessWidget {
   }
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-//  Safety Card
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-class _SafetyCard extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: WegooColors.secondaryFixed,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Icon box
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.4),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: const Icon(
-                  Icons.verified_user_outlined,
-                  color: WegooColors.onSecondaryFixed,
-                  size: 22,
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Safety First',
-                      style: WegooTextStyles.buttonText.copyWith(
-                        color: WegooColors.onSecondaryFixed,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      'Real profiles build trust within our travel community. Your data is encrypted and secure.',
-                      style: WegooTextStyles.bodySmall.copyWith(
-                        color: WegooColors.onSecondaryFixed.withOpacity(0.8),
-                        height: 1.6,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          // Decorative circle (bottom-right, clipped)
-          Positioned(
-            bottom: -32,
-            right: -32,
-            child: Container(
-              width: 112,
-              height: 112,
-              decoration: BoxDecoration(
-                color: WegooColors.secondaryFixedDim.withOpacity(0.3),
-                shape: BoxShape.circle,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-//  Next Button
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 class _NextButton extends StatefulWidget {
   const _NextButton({required this.onTap, required this.isLoading});
   final VoidCallback onTap;
-  final bool isLoading; // â† add this
+  final bool isLoading;
 
   @override
   State<_NextButton> createState() => _NextButtonState();
@@ -716,69 +734,93 @@ class _NextButtonState extends State<_NextButton> {
       },
       onTapCancel: () => setState(() => _pressed = false),
       child: AnimatedScale(
-        scale: _pressed ? 0.98 : 1.0,
-        duration: const Duration(milliseconds: 100),
+        scale: _pressed ? 0.97 : 1.0,
+        duration: const Duration(milliseconds: 150),
         child: Container(
-          height: 64,
+          height: 58,
           decoration: BoxDecoration(
-            color: WegooColors.primary,
+            gradient: const LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                WegooColors.primaryContainer,
+                WegooColors.primary,
+              ],
+            ),
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
                 color: WegooColors.primary.withOpacity(0.25),
-                blurRadius: 16,
+                blurRadius: 12,
                 offset: const Offset(0, 6),
               ),
             ],
           ),
-          child: widget.isLoading
-              ? const SizedBox(
-                  width: 24,
-                  height: 24,
-                  child: CircularProgressIndicator(
-                    color: Colors.white,
-                    strokeWidth: 2.5,
-                  ),
-                )
-              : const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Next',
+          child: Center(
+            child: widget.isLoading
+                ? const SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                      strokeWidth: 2.5,
+                    ),
+                  )
+                : const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Next Step',
                         style: TextStyle(
                           fontFamily: 'PlusJakartaSans',
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                           color: Colors.white,
-                          letterSpacing: 0.16,
-                        )),
-                    SizedBox(width: 8),
-                    Icon(Icons.arrow_forward, color: Colors.white, size: 20),
-                  ],
-                ),
+                          letterSpacing: 0.2,
+                        ),
+                      ),
+                      SizedBox(width: 8),
+                      Icon(Icons.chevron_right_rounded, color: Colors.white, size: 22),
+                    ],
+                  ),
+          ),
         ),
       ),
     );
   }
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────────────────────
 //  Footer Decoration
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────────────────────
 class _FooterDecoration extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        // Travel photo placeholder
+        // Travel photo decoration
         Expanded(
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: Container(
-              height: 112,
-              color: WegooColors.surfaceContainerHigh,
-              child: const Icon(
-                Icons.landscape_outlined,
-                size: 40,
+          child: Container(
+            height: 112,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  WegooColors.surfaceContainer,
+                  WegooColors.surfaceContainerLow,
+                ],
+              ),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: WegooColors.outlineVariant.withOpacity(0.3),
+                width: 1,
+              ),
+            ),
+            child: const Center(
+              child: Icon(
+                Icons.landscape_rounded,
+                size: 44,
                 color: WegooColors.outlineVariant,
               ),
             ),
@@ -790,21 +832,41 @@ class _FooterDecoration extends StatelessWidget {
           child: Container(
             height: 112,
             decoration: BoxDecoration(
-              color: WegooColors.surfaceContainer,
-              borderRadius: BorderRadius.circular(16),
+              color: WegooColors.surfaceContainerLowest,
+              borderRadius: BorderRadius.circular(20),
               border: Border.all(
-                color: WegooColors.outlineVariant.withOpacity(0.3),
+                color: WegooColors.outlineVariant.withOpacity(0.4),
+                width: 1,
               ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.02),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
             ),
             alignment: Alignment.center,
             padding: const EdgeInsets.all(16),
-            child: Text(
-              'JOIN 50K+\nTRAVELERS',
-              textAlign: TextAlign.center,
-              style: WegooTextStyles.labelCaps.copyWith(
-                color: WegooColors.outline,
-                height: 1.6,
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.people_alt_rounded,
+                  color: WegooColors.primary,
+                  size: 24,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'JOIN 50K+\nTRAVELERS',
+                  textAlign: TextAlign.center,
+                  style: WegooTextStyles.labelCaps.copyWith(
+                    color: WegooColors.onSurfaceVariant,
+                    fontSize: 10,
+                    height: 1.4,
+                  ),
+                ),
+              ],
             ),
           ),
         ),

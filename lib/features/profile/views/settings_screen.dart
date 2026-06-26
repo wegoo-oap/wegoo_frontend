@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -14,8 +14,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   final List<Map<String, String>> _languages = [
     {'code': 'EN', 'label': 'English'},
-    {'code': 'FR', 'label': 'FranÃ§ais'},
-    {'code': 'AR', 'label': 'Ø§Ù„Ø¹Ø±Ø¨ÙŠØ©'},
+    {'code': 'FR', 'label': 'Français'},
+    {'code': 'AR', 'label': 'العربية'},
   ];
 
   final List<_SettingItem> _settingItems = [

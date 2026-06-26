@@ -4,6 +4,14 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wegoo/features/auth/controllers/auth_providers.dart';
 
+/// Converts an ISO 3166-1 alpha-2 country code to a flag emoji.
+/// e.g. 'TN' -> 🇹🇳, 'FR' -> 🇫🇷
+String countryCodeToFlag(String countryCode) {
+  return countryCode.toUpperCase().runes.map((code) {
+    return String.fromCharCode(0x1F1E6 - 0x41 + code);
+  }).join();
+}
+
 class PhoneEntryScreen extends ConsumerStatefulWidget {
   const PhoneEntryScreen({super.key});
 
@@ -19,7 +27,7 @@ class _PhoneEntryScreenState extends ConsumerState<PhoneEntryScreen>
   bool _inputScaled = false;
 
   // Selected country
-  String _countryFlag = 'ðŸ‡¹ðŸ‡³';
+  String _countryFlag = countryCodeToFlag('TN');
   String _countryCode = '+216';
 
   late AnimationController _fadeController;
@@ -78,6 +86,28 @@ class _PhoneEntryScreenState extends ConsumerState<PhoneEntryScreen>
       setState(() => _isLoading = false);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(e.toString())),
+      );
+    }
+  }
+
+  void _onGoogleSignIn() async {
+    setState(() => _isLoading = true);
+    try {
+      final success = await ref.read(authServiceProvider).signInWithGoogle();
+      if (!mounted) return;
+      setState(() => _isLoading = false);
+      if (success) {
+        context.go('/auth/profile/1');
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Google Sign-In failed or was canceled')),
+        );
+      }
+    } catch (e) {
+      if (!mounted) return;
+      setState(() => _isLoading = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
       );
     }
   }
@@ -310,6 +340,12 @@ class _PhoneEntryScreenState extends ConsumerState<PhoneEntryScreen>
                               _SendOtpButton(
                                 isLoading: _isLoading,
                                 onTap: _onSendOtp,
+                              ),
+                              const SizedBox(height: 24),
+                              const _DividerOr(),
+                              const SizedBox(height: 24),
+                              _GoogleAuthButton(
+                                onTap: _onGoogleSignIn,
                               ),
 
                               // Footer
@@ -597,19 +633,19 @@ class _CountryPickerSheet extends StatelessWidget {
 
   const _CountryPickerSheet({required this.onSelect});
 
-  static const List<Map<String, String>> _countries = [
-    {'flag': 'ðŸ‡¹ðŸ‡³', 'name': 'Tunisia', 'code': '+216'},
-    {'flag': 'ðŸ‡«ðŸ‡·', 'name': 'France', 'code': '+33'},
-    {'flag': 'ðŸ‡©ðŸ‡¿', 'name': 'Algeria', 'code': '+213'},
-    {'flag': 'ðŸ‡²ðŸ‡¦', 'name': 'Morocco', 'code': '+212'},
-    {'flag': 'ðŸ‡ªðŸ‡¸', 'name': 'Spain', 'code': '+34'},
-    {'flag': 'ðŸ‡®ðŸ‡¹', 'name': 'Italy', 'code': '+39'},
-    {'flag': 'ðŸ‡©ðŸ‡ª', 'name': 'Germany', 'code': '+49'},
-    {'flag': 'ðŸ‡¬ðŸ‡§', 'name': 'UK', 'code': '+44'},
-    {'flag': 'ðŸ‡ºðŸ‡¸', 'name': 'USA', 'code': '+1'},
-    {'flag': 'ðŸ‡¸ðŸ‡¦', 'name': 'Saudi Arabia', 'code': '+966'},
-    {'flag': 'ðŸ‡¦ðŸ‡ª', 'name': 'UAE', 'code': '+971'},
-    {'flag': 'ðŸ‡¹ðŸ‡·', 'name': 'Turkey', 'code': '+90'},
+  static final List<Map<String, String>> _countries = [
+    {'flag': countryCodeToFlag('TN'), 'name': 'Tunisia', 'code': '+216'},
+    {'flag': countryCodeToFlag('FR'), 'name': 'France', 'code': '+33'},
+    {'flag': countryCodeToFlag('DZ'), 'name': 'Algeria', 'code': '+213'},
+    {'flag': countryCodeToFlag('MA'), 'name': 'Morocco', 'code': '+212'},
+    {'flag': countryCodeToFlag('ES'), 'name': 'Spain', 'code': '+34'},
+    {'flag': countryCodeToFlag('IT'), 'name': 'Italy', 'code': '+39'},
+    {'flag': countryCodeToFlag('DE'), 'name': 'Germany', 'code': '+49'},
+    {'flag': countryCodeToFlag('GB'), 'name': 'UK', 'code': '+44'},
+    {'flag': countryCodeToFlag('US'), 'name': 'USA', 'code': '+1'},
+    {'flag': countryCodeToFlag('SA'), 'name': 'Saudi Arabia', 'code': '+966'},
+    {'flag': countryCodeToFlag('AE'), 'name': 'UAE', 'code': '+971'},
+    {'flag': countryCodeToFlag('TR'), 'name': 'Turkey', 'code': '+90'},
   ];
 
   @override
@@ -672,6 +708,116 @@ class _CountryPickerSheet extends StatelessWidget {
         ),
         const SizedBox(height: 24),
       ],
+    );
+  }
+}
+
+class _DividerOr extends StatelessWidget {
+  const _DividerOr();
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        const Expanded(child: Divider(color: Color(0xFFE2E4E9), thickness: 1)),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Text(
+            'OR',
+            style: TextStyle(
+              fontFamily: 'PlusJakartaSans',
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF6B7280),
+              letterSpacing: 0.5,
+            ),
+          ),
+        ),
+        const Expanded(child: Divider(color: Color(0xFFE2E4E9), thickness: 1)),
+      ],
+    );
+  }
+}
+
+class _GoogleAuthButton extends StatefulWidget {
+  const _GoogleAuthButton({required this.onTap});
+  final VoidCallback onTap;
+  @override
+  State<_GoogleAuthButton> createState() => _GoogleAuthButtonState();
+}
+
+class _GoogleAuthButtonState extends State<_GoogleAuthButton> {
+  bool _pressed = false;
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTapDown: (_) => setState(() => _pressed = true),
+      onTapUp: (_) {
+        setState(() => _pressed = false);
+        widget.onTap();
+      },
+      onTapCancel: () => setState(() => _pressed = false),
+      child: AnimatedScale(
+        scale: _pressed ? 0.97 : 1.0,
+        duration: const Duration(milliseconds: 150),
+        child: AnimatedOpacity(
+          opacity: _pressed ? 0.85 : 1.0,
+          duration: const Duration(milliseconds: 150),
+          child: Container(
+            width: double.infinity,
+            height: 56,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: const Color(0xFFE2E4E9), width: 1.5),
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.02),
+                  blurRadius: 12,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 24,
+                  height: 24,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white,
+                  ),
+                  child: Center(
+                    child: Image.network(
+                      'https://developers.google.com/identity/images/g-logo.png',
+                      width: 18,
+                      height: 18,
+                      errorBuilder: (_, __, ___) => const Text(
+                        'G',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFFDB4437),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                const Text(
+                  'Continue with Google',
+                  style: TextStyle(
+                    fontFamily: 'PlusJakartaSans',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF1F2937),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

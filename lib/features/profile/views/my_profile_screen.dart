@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -108,7 +108,7 @@ class MyProfileScreen extends StatelessWidget {
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 24),
             child: Text(
-              'Architect by day, wanderlust enthusiast by night. Dreaming of Greek sunsets and Italian espressos. ðŸŒâ˜•',
+              'Architect by day, wanderlust enthusiast by night. Dreaming of Greek sunsets and Italian espressos. \u{1F30D}\u{2615}',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: 'PlusJakartaSans',

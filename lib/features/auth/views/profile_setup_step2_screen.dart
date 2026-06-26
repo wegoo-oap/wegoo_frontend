@@ -1,4 +1,4 @@
-﻿import 'dart:ui' as ui;
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -224,7 +224,7 @@ class _ProfileSetupStep2ScreenState extends State<ProfileSetupStep2Screen>
       });
 
       await Future.delayed(const Duration(seconds: 2));
-      if (mounted) context.go('/profile');
+      if (mounted) context.go('/home');
     } catch (e) {
       if (!mounted) return;
       setState(() => _isLoading = false);
@@ -923,7 +923,7 @@ class _SuccessOverlayState extends State<_SuccessOverlay>
                         height: 48,
                         child: ElevatedButton(
                           // â”€â”€ FIX 6: real navigation â”€â”€â”€â”€â”€â”€
-                          onPressed: () => context.go('/profile'),
+                          onPressed: () => context.go('/home'),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: WegooColors.primary,
                             foregroundColor: Colors.white,
